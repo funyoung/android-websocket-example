@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 public class NetworkStateReceiver extends BroadcastReceiver {
@@ -22,6 +21,6 @@ public class NetworkStateReceiver extends BroadcastReceiver {
 
         Intent broadcastIntent = new Intent(WebSocketsService.ACTION_NETWORK_STATE_CHANGED);
         broadcastIntent.putExtra(WebSocketsService.ACTION_NETWORK_STATE_CHANGED, networkIsOn);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(broadcastIntent);
+        context.sendBroadcast(broadcastIntent);
     }
 }

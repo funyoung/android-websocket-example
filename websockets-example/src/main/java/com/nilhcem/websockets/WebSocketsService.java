@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import com.codebutler.android.websockets.WebSocketClient;
 
@@ -40,7 +39,7 @@ public class WebSocketsService extends Service implements WebSocketClient.Listen
     @Override
     public IBinder onBind(Intent intent) {
         Log.i(TAG, "onBind");
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter(WebSocketsService.ACTION_NETWORK_STATE_CHANGED));
+        registerReceiver(mMessageReceiver, new IntentFilter(WebSocketsService.ACTION_NETWORK_STATE_CHANGED));
         startSocket();
         return mBinder;
     }
@@ -48,7 +47,7 @@ public class WebSocketsService extends Service implements WebSocketClient.Listen
     @Override
     public boolean onUnbind(Intent intent) {
         Log.i(TAG, "onUnbind");
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+        unregisterReceiver(mMessageReceiver);
         stopSocket();
         return false;
     }
@@ -100,7 +99,7 @@ public class WebSocketsService extends Service implements WebSocketClient.Listen
 
     private void sendMessageReceivedEvent() {
         Intent intent = new Intent(ACTION_MSG_RECEIVED);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        sendBroadcast(intent);
     }
 
     public final class WebSocketsBinder extends Binder {
